@@ -11,13 +11,30 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+              ->add('nom',TextType::class,[
+        "label"=>false
+    ])
+    ->add('prenom', TextType::class,[
+        "label"=>false
+    ])
+    ->add('email',EmailType::class,[
+        "label"=>false
+    ])
+    ->add('adresse',TextType::class,[
+        "label"=>false
+    ])
+    ->add('Telephone',TelType::class)
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -43,9 +60,11 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-        ;
+
+            ;
     }
 
+  
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
