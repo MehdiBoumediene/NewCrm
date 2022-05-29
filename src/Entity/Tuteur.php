@@ -52,6 +52,18 @@ class Tuteur
      */
     private $createdBy;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="tuteur")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $apprenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tuteurs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +149,30 @@ class Tuteur
     public function setCreatedBy(string $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getApprenant(): ?Apprenant
+    {
+        return $this->apprenant;
+    }
+
+    public function setApprenant(?Apprenant $apprenant): self
+    {
+        $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

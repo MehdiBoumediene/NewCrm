@@ -42,6 +42,36 @@ class Absence
      */
     private $au;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="absence")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $apprenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="absence")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Module::class, inversedBy="absences")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $module;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="absences")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="absences")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +133,66 @@ class Absence
     public function setAu(\DateTimeInterface $au): self
     {
         $this->au = $au;
+
+        return $this;
+    }
+
+    public function getApprenant(): ?Apprenant
+    {
+        return $this->apprenant;
+    }
+
+    public function setApprenant(?Apprenant $apprenant): self
+    {
+        $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getIntervenant(): ?Intervenant
+    {
+        return $this->intervenant;
+    }
+
+    public function setIntervenant(?Intervenant $intervenant): self
+    {
+        $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getClasse(): ?Classe
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?Classe $classe): self
+    {
+        $this->classe = $classe;
 
         return $this;
     }

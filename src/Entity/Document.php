@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DocumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,40 @@ class Document
      * @ORM\Column(type="string", length=255)
      */
     private $createdBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Module::class, inversedBy="document")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $module;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Apprenant::class, mappedBy="document")
+     */
+    private $apprenants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="document")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="documents")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $apprenant;
+
+    public function __construct()
+    {
+        $this->apprenants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +139,81 @@ class Document
     public function setCreatedBy(string $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Apprenant>
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+            $apprenant->addDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        if ($this->apprenants->removeElement($apprenant)) {
+            $apprenant->removeDocument($this);
+        }
+
+        return $this;
+    }
+
+    public function getIntervenant(): ?Intervenant
+    {
+        return $this->intervenant;
+    }
+
+    public function setIntervenant(?Intervenant $intervenant): self
+    {
+        $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getApprenant(): ?Apprenant
+    {
+        return $this->apprenant;
+    }
+
+    public function setApprenant(?Apprenant $apprenant): self
+    {
+        $this->apprenant = $apprenant;
 
         return $this;
     }
