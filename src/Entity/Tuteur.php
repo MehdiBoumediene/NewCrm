@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TuteurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,26 @@ class Tuteur
      * @ORM\Column(type="string", length=255)
      */
     private $createdBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="tuteur")
+     */
+    private $apprenant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tuteurs")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="tuteurs")
+     */
+    private $apprenants;
+
+    public function __construct()
+    {
+        $this->apprenants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +159,54 @@ class Tuteur
     public function setCreatedBy(string $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getApprenant(): ?Apprenant
+    {
+        return $this->apprenant;
+    }
+
+    public function setApprenant(?Apprenant $apprenant): self
+    {
+        $this->apprenant = $apprenant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Apprenant>
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        $this->apprenants->removeElement($apprenant);
 
         return $this;
     }
