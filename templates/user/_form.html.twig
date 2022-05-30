@@ -1,4 +1,67 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{# This will be a comment #}
+
+ 
+       <div class="form-row">
+        <div class="col-md-3">
+        {{ form_row(form.nom,{'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nom) }}
+        </div>
+        <div class="col-md-3">
+       {{ form_row(form.prenom,{'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.prenom) }}
+        </div>
+
+        <div class="col-md-3">
+       {{ form_row(form.Adresse,{'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.Adresse) }}
+        </div>
+     <div class="col-md-3">
+       {{ form_row(form.telephone,{'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.telephone) }}
+        </div>
+    </div>
+    <br>
+  <div class="form-row">
+        <div class="col-md-6">
+        {{ form_row(form.email,{'attr': {'class': 'form-control' }}) }}
+        {{ form_errors(form.email) }}
+        </div>
+ <div class="col-md-6">
+       {{ form_row(form.password,{'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.password) }}
+        </div>
+    </div>
+
+ <br>
+    <div class="form-row">
+        <div class="col-md-3">
+            {{ form_row(form.roles,{'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.roles) }}
+        </div>
+      {# <div class="col-md-3">
+     
+              {{ form_row(form.classes,{'attr': {'class': 'form-control'}}) }}
+             {{ form_errors(form.classes) }}
+        </div>
+             <div class="col-md-3">
+     
+              {{ form_row(form.module,{'attr': {'class': 'form-control'}}) }}
+             {{ form_errors(form.module) }}
+        </div>
+        <div class="col-md-3 hidden">
+     
+              {{ form_row(form.isVerified,{'attr': {'class': 'checkbox'}}) }}
+             {{ form_errors(form.isVerified) }}
+        </div> #} 
+     
+           
+        
+
+    </div>
+
+ <button class="mt-1 btn btn-success">{{ button_label|default('sauvegarder') }}</button> ou <a href="{{ path('userapp_user_index') }}">Retour à la liste</a>
 {{ form_end(form) }}
+
+

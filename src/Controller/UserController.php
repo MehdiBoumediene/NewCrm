@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/admin", name="users")
+ * @Route("/admin", name="user")
  */
 class UserController extends AbstractController
 {
@@ -34,17 +34,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->add($user, true);
 
-            $plainpwd = $user->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($user,$plainpwd);
-            $date = new \DateTimeImmutable('now');
-         
-            $user->setCreatedBy($this->getUser()->getEmail);
-            $user->setUser($user);
-            $user->setCreatedAt($date);
-            $user->setPassword($encoded);
-            $userRepository->add($user);
-          
-
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -61,6 +50,9 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+
+
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
@@ -79,6 +71,11 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
+
+
+
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
