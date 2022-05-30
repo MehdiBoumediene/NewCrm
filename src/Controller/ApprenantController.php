@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/apprenant")
- */
+#[Route('/apprenant')]
 class ApprenantController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_apprenant_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_apprenant_index', methods: ['GET'])]
     public function index(ApprenantRepository $apprenantRepository): Response
     {
         return $this->render('apprenant/index.html.twig', [
@@ -25,9 +21,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_apprenant_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_apprenant_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ApprenantRepository $apprenantRepository): Response
     {
         $apprenant = new Apprenant();
@@ -46,9 +40,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_apprenant_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_apprenant_show', methods: ['GET'])]
     public function show(Apprenant $apprenant): Response
     {
         return $this->render('apprenant/show.html.twig', [
@@ -56,9 +48,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_apprenant_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_apprenant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Apprenant $apprenant, ApprenantRepository $apprenantRepository): Response
     {
         $form = $this->createForm(ApprenantType::class, $apprenant);
@@ -76,9 +66,7 @@ class ApprenantController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_apprenant_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_apprenant_delete', methods: ['POST'])]
     public function delete(Request $request, Apprenant $apprenant, ApprenantRepository $apprenantRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$apprenant->getId(), $request->request->get('_token'))) {

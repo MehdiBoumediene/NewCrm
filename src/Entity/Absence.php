@@ -44,33 +44,29 @@ class Absence
 
     /**
      * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="absence")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $apprenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="absence")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=Module::class, inversedBy="absences")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $module;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="absences")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="absences")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $classe;
+
 
     public function getId(): ?int
     {
@@ -157,6 +153,18 @@ class Absence
     public function setIntervenant(?Intervenant $intervenant): self
     {
         $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    public function getApprenants(): ?Apprenant
+    {
+        return $this->apprenants;
+    }
+
+    public function setApprenants(?Apprenant $apprenants): self
+    {
+        $this->apprenants = $apprenants;
 
         return $this;
     }

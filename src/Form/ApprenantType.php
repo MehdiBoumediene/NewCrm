@@ -19,12 +19,6 @@ class ApprenantType extends AbstractType
             ->add('email')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('classe')
-            ->add('module')
-            ->add('user')
-            ->add('bloc')
-            ->add('document')
-            ->add('intervenants')
         ;
     }
 

@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/message")
- */
+#[Route('/message')]
 class MessageController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_message_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_message_index', methods: ['GET'])]
     public function index(MessageRepository $messageRepository): Response
     {
         return $this->render('message/index.html.twig', [
@@ -25,9 +21,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_message_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_message_new', methods: ['GET', 'POST'])]
     public function new(Request $request, MessageRepository $messageRepository): Response
     {
         $message = new Message();
@@ -46,9 +40,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_message_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_message_show', methods: ['GET'])]
     public function show(Message $message): Response
     {
         return $this->render('message/show.html.twig', [
@@ -56,9 +48,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_message_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_message_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Message $message, MessageRepository $messageRepository): Response
     {
         $form = $this->createForm(MessageType::class, $message);
@@ -76,9 +66,7 @@ class MessageController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_message_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_message_delete', methods: ['POST'])]
     public function delete(Request $request, Message $message, MessageRepository $messageRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {

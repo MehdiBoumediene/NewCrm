@@ -17,11 +17,6 @@ class DocumentType extends AbstractType
             ->add('path')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('module')
-            ->add('apprenants')
-            ->add('intervenant')
-            ->add('user')
-            ->add('apprenant')
         ;
     }
 

@@ -36,35 +36,36 @@ class Module
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="module")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $classe;
 
     /**
      * @ORM\ManyToOne(targetEntity=Bloc::class, inversedBy="module")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $bloc;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Classe::class, inversedBy="modules")
+     */
+    private $Classe;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Intervenant::class, inversedBy="modules")
      */
-    private $Intervenant;
+    private $intervenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="modules")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="modules")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $apprenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="module", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="module")
      */
     private $document;
 
@@ -79,13 +80,14 @@ class Module
     private $intervenants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="module", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="module")
      */
     private $absences;
 
     public function __construct()
     {
-        $this->Intervenant = new ArrayCollection();
+        $this->Classe = new ArrayCollection();
+        $this->intervenant = new ArrayCollection();
         $this->document = new ArrayCollection();
         $this->apprenants = new ArrayCollection();
         $this->intervenants = new ArrayCollection();
@@ -157,18 +159,34 @@ class Module
         return $this;
     }
 
+    public function addClasse(Classe $classe): self
+    {
+        if (!$this->Classe->contains($classe)) {
+            $this->Classe[] = $classe;
+        }
+
+        return $this;
+    }
+
+    public function removeClasse(Classe $classe): self
+    {
+        $this->Classe->removeElement($classe);
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Intervenant>
      */
     public function getIntervenant(): Collection
     {
-        return $this->Intervenant;
+        return $this->intervenant;
     }
 
     public function addIntervenant(Intervenant $intervenant): self
     {
-        if (!$this->Intervenant->contains($intervenant)) {
-            $this->Intervenant[] = $intervenant;
+        if (!$this->intervenant->contains($intervenant)) {
+            $this->intervenant[] = $intervenant;
         }
 
         return $this;
@@ -176,7 +194,7 @@ class Module
 
     public function removeIntervenant(Intervenant $intervenant): self
     {
-        $this->Intervenant->removeElement($intervenant);
+        $this->intervenant->removeElement($intervenant);
 
         return $this;
     }

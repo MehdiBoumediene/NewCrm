@@ -44,25 +44,21 @@ class Message
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="message")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $classe;
 
     /**
      * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="message")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $apprenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="message")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 

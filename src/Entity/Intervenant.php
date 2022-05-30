@@ -55,13 +55,12 @@ class Intervenant
     private $createdBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="inetervenant")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="intervenant")
      */
     private $classe;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Module::class, mappedBy="Intervenant")
+     * @ORM\ManyToMany(targetEntity=Module::class, mappedBy="intervenant")
      */
     private $modules;
 
@@ -71,18 +70,22 @@ class Intervenant
     private $module;
 
     /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="intervenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="intervenant")
      */
     private $absence;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="intervenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="intervenant")
      */
     private $document;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="intervenants")
+     */
+    private $classes;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="intervenants")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -92,7 +95,7 @@ class Intervenant
     private $apprenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="intervenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="intervenant")
      */
     private $message;
 
@@ -298,6 +301,18 @@ class Intervenant
                 $document->setIntervenant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClasses(): ?Classe
+    {
+        return $this->classes;
+    }
+
+    public function setClasses(?Classe $classes): self
+    {
+        $this->classes = $classes;
 
         return $this;
     }

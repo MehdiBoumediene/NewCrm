@@ -35,19 +35,22 @@ class Bloc
     private $createdBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="bloc")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="Bloc")
      */
     private $classe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="bloc", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="bloc")
+     */
+    private $classes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="bloc")
      */
     private $module;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blocs")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -58,6 +61,7 @@ class Bloc
 
     public function __construct()
     {
+        $this->classes = new ArrayCollection();
         $this->module = new ArrayCollection();
         $this->apprenants = new ArrayCollection();
     }
@@ -111,6 +115,36 @@ class Bloc
     public function setClasse(?Classe $classe): self
     {
         $this->classe = $classe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes[] = $class;
+            $class->setBloc($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getBloc() === $this) {
+                $class->setBloc(null);
+            }
+        }
 
         return $this;
     }

@@ -46,7 +46,6 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity=Module::class, inversedBy="document")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $module;
 
@@ -57,21 +56,13 @@ class Document
 
     /**
      * @ORM\ManyToOne(targetEntity=Intervenant::class, inversedBy="document")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $intervenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="documents")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $apprenant;
 
     public function __construct()
     {
@@ -202,18 +193,6 @@ class Document
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getApprenant(): ?Apprenant
-    {
-        return $this->apprenant;
-    }
-
-    public function setApprenant(?Apprenant $apprenant): self
-    {
-        $this->apprenant = $apprenant;
 
         return $this;
     }

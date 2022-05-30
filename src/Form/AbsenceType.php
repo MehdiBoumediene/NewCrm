@@ -17,11 +17,6 @@ class AbsenceType extends AbstractType
             ->add('createdBy')
             ->add('du')
             ->add('au')
-            ->add('apprenant')
-            ->add('intervenant')
-            ->add('module')
-            ->add('user')
-            ->add('classe')
         ;
     }
 

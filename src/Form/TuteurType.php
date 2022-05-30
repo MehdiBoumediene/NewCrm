@@ -19,8 +19,6 @@ class TuteurType extends AbstractType
             ->add('telephone')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('apprenant')
-            ->add('user')
         ;
     }
 

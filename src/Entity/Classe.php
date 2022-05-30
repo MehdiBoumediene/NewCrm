@@ -35,48 +35,70 @@ class Classe
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bloc::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Bloc::class, mappedBy="classe")
      */
-    private $bloc;
+    private $Bloc;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="classes")
-     * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private $User;
 
     /**
-     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="classe")
      */
     private $apprenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Intervenant::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Intervenant::class, mappedBy="classe")
      */
-    private $inetervenant;
+    private $intervenant;
 
     /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="classe")
      */
     private $module;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="classe")
      */
     private $message;
 
     /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="classe", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=Bloc::class, inversedBy="classes")
+     */
+    private $bloc;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Module::class, mappedBy="Classe")
+     */
+    private $modules;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="classes")
+     */
+    private $apprenants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Intervenant::class, mappedBy="classes")
+     */
+    private $intervenants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="classe")
      */
     private $absences;
 
     public function __construct()
     {
-        $this->bloc = new ArrayCollection();
+        $this->Bloc = new ArrayCollection();
         $this->apprenant = new ArrayCollection();
-        $this->inetervenant = new ArrayCollection();
+        $this->intervenant = new ArrayCollection();
         $this->module = new ArrayCollection();
         $this->message = new ArrayCollection();
+        $this->modules = new ArrayCollection();
+        $this->apprenants = new ArrayCollection();
+        $this->intervenants = new ArrayCollection();
         $this->absences = new ArrayCollection();
     }
 
@@ -126,13 +148,13 @@ class Classe
      */
     public function getBloc(): Collection
     {
-        return $this->bloc;
+        return $this->Bloc;
     }
 
     public function addBloc(Bloc $bloc): self
     {
-        if (!$this->bloc->contains($bloc)) {
-            $this->bloc[] = $bloc;
+        if (!$this->Bloc->contains($bloc)) {
+            $this->Bloc[] = $bloc;
             $bloc->setClasse($this);
         }
 
@@ -141,7 +163,7 @@ class Classe
 
     public function removeBloc(Bloc $bloc): self
     {
-        if ($this->bloc->removeElement($bloc)) {
+        if ($this->Bloc->removeElement($bloc)) {
             // set the owning side to null (unless already changed)
             if ($bloc->getClasse() === $this) {
                 $bloc->setClasse(null);
@@ -153,12 +175,12 @@ class Classe
 
     public function getUser(): ?User
     {
-        return $this->user;
+        return $this->User;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $User): self
     {
-        $this->user = $user;
+        $this->User = $User;
 
         return $this;
     }
@@ -196,27 +218,27 @@ class Classe
     /**
      * @return Collection<int, Intervenant>
      */
-    public function getInetervenant(): Collection
+    public function getIntervenant(): Collection
     {
-        return $this->inetervenant;
+        return $this->intervenant;
     }
 
-    public function addInetervenant(Intervenant $inetervenant): self
+    public function addIntervenant(Intervenant $intervenant): self
     {
-        if (!$this->inetervenant->contains($inetervenant)) {
-            $this->inetervenant[] = $inetervenant;
-            $inetervenant->setClasse($this);
+        if (!$this->intervenant->contains($intervenant)) {
+            $this->intervenant[] = $intervenant;
+            $intervenant->setClasse($this);
         }
 
         return $this;
     }
 
-    public function removeInetervenant(Intervenant $inetervenant): self
+    public function removeIntervenant(Intervenant $intervenant): self
     {
-        if ($this->inetervenant->removeElement($inetervenant)) {
+        if ($this->intervenant->removeElement($intervenant)) {
             // set the owning side to null (unless already changed)
-            if ($inetervenant->getClasse() === $this) {
-                $inetervenant->setClasse(null);
+            if ($intervenant->getClasse() === $this) {
+                $intervenant->setClasse(null);
             }
         }
 
@@ -281,6 +303,37 @@ class Classe
         }
 
         return $this;
+    }
+
+    public function setBloc(?Bloc $bloc): self
+    {
+        $this->bloc = $bloc;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Module>
+     */
+    public function getModules(): Collection
+    {
+        return $this->modules;
+    }
+
+    /**
+     * @return Collection<int, Apprenant>
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    /**
+     * @return Collection<int, Intervenant>
+     */
+    public function getIntervenants(): Collection
+    {
+        return $this->intervenants;
     }
 
     /**

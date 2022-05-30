@@ -15,9 +15,6 @@ class BlocType extends AbstractType
             ->add('nom')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('classe')
-            ->add('user')
-            ->add('apprenants')
         ;
     }
 

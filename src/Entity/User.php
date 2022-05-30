@@ -70,47 +70,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Classe::class, mappedBy="User")
      */
     private $classes;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bloc::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Bloc::class, mappedBy="user")
      */
     private $blocs;
 
     /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="user")
      */
     private $modules;
 
     /**
-     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Apprenant::class, mappedBy="user")
      */
     private $apprenants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Intervenant::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Intervenant::class, mappedBy="user")
      */
     private $intervenants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tuteur::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Tuteur::class, mappedBy="user")
      */
     private $tuteurs;
 
     /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="user")
      */
     private $absences;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
      */
     private $messages;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="user")
      */
     private $documents;
 
@@ -284,6 +284,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedBy(string $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+    public function getUser(): ?self
+    {
+        return $this->user;
+    }
+
+    public function setUser(?self $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -557,4 +568,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/tuteur")
- */
+#[Route('/tuteur')]
 class TuteurController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_tuteur_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_tuteur_index', methods: ['GET'])]
     public function index(TuteurRepository $tuteurRepository): Response
     {
         return $this->render('tuteur/index.html.twig', [
@@ -25,9 +21,7 @@ class TuteurController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_tuteur_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_tuteur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TuteurRepository $tuteurRepository): Response
     {
         $tuteur = new Tuteur();
@@ -46,9 +40,7 @@ class TuteurController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_tuteur_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_tuteur_show', methods: ['GET'])]
     public function show(Tuteur $tuteur): Response
     {
         return $this->render('tuteur/show.html.twig', [
@@ -56,9 +48,7 @@ class TuteurController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_tuteur_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_tuteur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tuteur $tuteur, TuteurRepository $tuteurRepository): Response
     {
         $form = $this->createForm(TuteurType::class, $tuteur);
@@ -76,9 +66,7 @@ class TuteurController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_tuteur_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_tuteur_delete', methods: ['POST'])]
     public function delete(Request $request, Tuteur $tuteur, TuteurRepository $tuteurRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tuteur->getId(), $request->request->get('_token'))) {

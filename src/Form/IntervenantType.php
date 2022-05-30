@@ -19,11 +19,6 @@ class IntervenantType extends AbstractType
             ->add('telephone')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('classe')
-            ->add('modules')
-            ->add('module')
-            ->add('user')
-            ->add('apprenant')
         ;
     }
 

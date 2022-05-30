@@ -15,13 +15,6 @@ class ModuleType extends AbstractType
             ->add('titre')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('classe')
-            ->add('bloc')
-            ->add('Intervenant')
-            ->add('user')
-            ->add('apprenant')
-            ->add('apprenants')
-            ->add('intervenants')
         ;
     }
 

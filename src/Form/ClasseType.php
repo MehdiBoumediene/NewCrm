@@ -15,7 +15,6 @@ class ClasseType extends AbstractType
             ->add('nom')
             ->add('createdAt')
             ->add('createdBy')
-            ->add('user')
         ;
     }
 

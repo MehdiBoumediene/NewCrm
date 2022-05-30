@@ -17,10 +17,6 @@ class MessageType extends AbstractType
             ->add('createdBy')
             ->add('is_read')
             ->add('message')
-            ->add('classe')
-            ->add('apprenant')
-            ->add('intervenant')
-            ->add('user')
         ;
     }
 

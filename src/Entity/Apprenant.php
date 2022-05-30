@@ -56,12 +56,11 @@ class Apprenant
 
     /**
      * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="apprenant")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $classe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Module::class, mappedBy="apprenant")
      */
     private $modules;
 
@@ -71,8 +70,12 @@ class Apprenant
     private $module;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Classe::class, inversedBy="apprenants")
+     */
+    private $classes;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="apprenants")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -82,7 +85,7 @@ class Apprenant
     private $bloc;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tuteur::class, mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Tuteur::class, mappedBy="apprenant")
      */
     private $tuteur;
 
@@ -92,12 +95,12 @@ class Apprenant
     private $document;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="apprenant")
      */
     private $message;
 
     /**
-     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Absence::class, mappedBy="apprenant")
      */
     private $absence;
 
@@ -107,9 +110,9 @@ class Apprenant
     private $intervenants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="apprenant", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=Tuteur::class, mappedBy="apprenants")
      */
-    private $documents;
+    private $tuteurs;
 
     public function __construct()
     {
@@ -121,7 +124,8 @@ class Apprenant
         $this->message = new ArrayCollection();
         $this->absence = new ArrayCollection();
         $this->intervenants = new ArrayCollection();
-        $this->documents = new ArrayCollection();
+        $this->tuteurs = new ArrayCollection();
+        $this->absences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -261,6 +265,18 @@ class Apprenant
     public function getModule(): Collection
     {
         return $this->module;
+    }
+
+    public function getClasses(): ?Classe
+    {
+        return $this->classes;
+    }
+
+    public function setClasses(?Classe $classes): self
+    {
+        $this->classes = $classes;
+
+        return $this;
     }
 
     public function getUser(): ?User
@@ -441,10 +457,18 @@ class Apprenant
     }
 
     /**
-     * @return Collection<int, Document>
+     * @return Collection<int, Tuteur>
      */
-    public function getDocuments(): Collection
+    public function getTuteurs(): Collection
     {
-        return $this->documents;
+        return $this->tuteurs;
+    }
+
+    /**
+     * @return Collection<int, Absence>
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
     }
 }

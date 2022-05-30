@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/bloc")
- */
+#[Route('/bloc')]
 class BlocController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_bloc_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_bloc_index', methods: ['GET'])]
     public function index(BlocRepository $blocRepository): Response
     {
         return $this->render('bloc/index.html.twig', [
@@ -25,9 +21,7 @@ class BlocController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_bloc_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_bloc_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BlocRepository $blocRepository): Response
     {
         $bloc = new Bloc();
@@ -35,12 +29,7 @@ class BlocController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $date = new \DateTimeImmutable('now');
-         
-            $bloc->setCreatedBy($this->getUser()->getEmail());
-            $bloc->setUser($this->getUser());
-            $bloc->setCreatedAt($date);
-            $blocRepository->add($bloc);
+            $blocRepository->add($bloc, true);
 
             return $this->redirectToRoute('app_bloc_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -51,9 +40,7 @@ class BlocController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_bloc_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_bloc_show', methods: ['GET'])]
     public function show(Bloc $bloc): Response
     {
         return $this->render('bloc/show.html.twig', [
@@ -61,16 +48,14 @@ class BlocController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_bloc_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_bloc_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bloc $bloc, BlocRepository $blocRepository): Response
     {
-        $form = $this->createForm(BlocsType::class, $bloc);
+        $form = $this->createForm(BlocType::class, $bloc);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $blocRepository->add($bloc);
+            $blocRepository->add($bloc, true);
 
             return $this->redirectToRoute('app_bloc_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -81,9 +66,7 @@ class BlocController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_bloc_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_bloc_delete', methods: ['POST'])]
     public function delete(Request $request, Bloc $bloc, BlocRepository $blocRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$bloc->getId(), $request->request->get('_token'))) {

@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/absence")
- */
+#[Route('/absence')]
 class AbsenceController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_absence_index", methods={"GET"})
-     */
+    #[Route('/', name: 'app_absence_index', methods: ['GET'])]
     public function index(AbsenceRepository $absenceRepository): Response
     {
         return $this->render('absence/index.html.twig', [
@@ -25,9 +21,7 @@ class AbsenceController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="app_absence_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'app_absence_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AbsenceRepository $absenceRepository): Response
     {
         $absence = new Absence();
@@ -46,9 +40,7 @@ class AbsenceController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_absence_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'app_absence_show', methods: ['GET'])]
     public function show(Absence $absence): Response
     {
         return $this->render('absence/show.html.twig', [
@@ -56,9 +48,7 @@ class AbsenceController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app_absence_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'app_absence_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
     {
         $form = $this->createForm(AbsenceType::class, $absence);
@@ -76,9 +66,7 @@ class AbsenceController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_absence_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'app_absence_delete', methods: ['POST'])]
     public function delete(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$absence->getId(), $request->request->get('_token'))) {

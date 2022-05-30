@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TuteurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,15 +56,23 @@ class Tuteur
 
     /**
      * @ORM\ManyToOne(targetEntity=Apprenant::class, inversedBy="tuteur")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $apprenant;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tuteurs")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Apprenant::class, inversedBy="tuteurs")
+     */
+    private $apprenants;
+
+    public function __construct()
+    {
+        $this->apprenants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,6 +183,30 @@ class Tuteur
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Apprenant>
+     */
+    public function getApprenants(): Collection
+    {
+        return $this->apprenants;
+    }
+
+    public function addApprenant(Apprenant $apprenant): self
+    {
+        if (!$this->apprenants->contains($apprenant)) {
+            $this->apprenants[] = $apprenant;
+        }
+
+        return $this;
+    }
+
+    public function removeApprenant(Apprenant $apprenant): self
+    {
+        $this->apprenants->removeElement($apprenant);
 
         return $this;
     }
