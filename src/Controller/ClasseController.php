@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Classe;
 use App\Form\ClasseType;
 use App\Repository\ClasseRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ModuleRepository;
+use App\Repository\ApprenantRepository;
+use App\Repository\IntervenantRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/classe")
@@ -21,7 +24,7 @@ class ClasseController extends AbstractController
     public function index(ClasseRepository $classeRepository): Response
     {
         return $this->render('classe/index.html.twig', [
-            'classes' => $classeRepository->findAll(),
+            'classe' => $classeRepository->findAll(),
         ]);
     }
 
@@ -35,7 +38,13 @@ class ClasseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $classeRepository->add($classe, true);
+            $date = new \DateTimeImmutable('now');
+         
+            $classe->setCreatedBy($this->getUser()->getEmail());
+            $classe->setUser($this->getUser());
+            
+            $classe->setCreatedAt($date);
+            $classeRepository->add($classe);
 
             return $this->redirectToRoute('app_classe_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -49,10 +58,13 @@ class ClasseController extends AbstractController
     /**
      * @Route("/{id}", name="app_classe_show", methods={"GET"})
      */
-    public function show(Classe $classe): Response
+    public function show(Classe $classe, ModuleRepository $moduleRepository, IntervenantRepository $intervenantRepository , ApprenantRepository $apprenantRepository): Response
     {
         return $this->render('classe/show.html.twig', [
             'classe' => $classe,
+            'module' => $moduleRepository->findBy(array('classe'=>$classe)),
+            'intervenant' => $intervenantRepository->findBy(array('classe'=>$classe)),
+            'apprenant' => $apprenantRepository->findBy(array('classe'=>$classe)),
         ]);
     }
 
@@ -65,7 +77,7 @@ class ClasseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $classeRepository->add($classe, true);
+            $classeRepository->add($classe);
 
             return $this->redirectToRoute('app_classe_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -82,7 +94,7 @@ class ClasseController extends AbstractController
     public function delete(Request $request, Classe $classe, ClasseRepository $classeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$classe->getId(), $request->request->get('_token'))) {
-            $classeRepository->remove($classe, true);
+            $classeRepository->remove($classe);
         }
 
         return $this->redirectToRoute('app_classe_index', [], Response::HTTP_SEE_OTHER);
