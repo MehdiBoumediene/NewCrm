@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tuteur index{% endblock %}
+
+{% block body %}
+    <h1>Tuteur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>CreatedAt</th>
+                <th>CreatedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tuteur in tuteurs %}
+            <tr>
+                <td>{{ tuteur.id }}</td>
+                <td>{{ tuteur.nom }}</td>
+                <td>{{ tuteur.prenom }}</td>
+                <td>{{ tuteur.adresse }}</td>
+                <td>{{ tuteur.email }}</td>
+                <td>{{ tuteur.telephone }}</td>
+                <td>{{ tuteur.createdAt ? tuteur.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tuteur.createdBy }}</td>
+                <td>
+                    <a href="{{ path('app_tuteur_show', {'id': tuteur.id}) }}">show</a>
+                    <a href="{{ path('app_tuteur_edit', {'id': tuteur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tuteur_new') }}">Create new</a>
+{% endblock %}
